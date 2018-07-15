@@ -38,7 +38,7 @@ class CreateStory():
 		if start_loc:
 			self.story.append(start_loc)
 
-	# Remove this function. Add class inheritance for "places_nearby"
+	# Remove this function. Add class inheritance for "places_nearby" ?
 	def list_nearby_places(self, location, category):
 		places_dict = places.places_nearby(location, category)
 		return places_dict
@@ -69,5 +69,6 @@ if __name__ == "__main__":
 
 	# Get directions from one point to another
 	# now = datetime.now()
-	# directions_results = gmaps.directions("161 Camelia Lane", "UCLA", mode="transit", departure_time=now)
-	# print(directions_results)
+4directions_results = gmaps.directions("161 Camelia Lane", "UCLA", mode="transit", departure_time=now)
+# print(directions_results)
+1.
