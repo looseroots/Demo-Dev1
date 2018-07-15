@@ -25,11 +25,11 @@ example_story = [
 	}
 ]
 
-class Story():
+class CreateStory():
 	def __init__(self, start_loc=None, end_loc=None, story_duration=None, story_budget=None):
 		self.story = list()
 
-	def start_location(self, location=None):
+	def create_start_event(self, location=None):
 		if location:
 			start_loc = gmaps.geocode(location)
 		else:
@@ -46,10 +46,11 @@ class Story():
 	def append_event(self, event):
 		self.story.append(event)
 
-	def choose_category(self, event, time):
+	def choose_category(self, previous_event, current_time):
 		return None
 
-
+	def allocate_time(self, event):
+		return None
 
 # Parameters for Google API place_nearby function
 '''
@@ -58,16 +59,15 @@ def places_nearby(client, location=None, radius=None, keyword=None,
                   open_now=False, rank_by=None, type=None, page_token=None):
 '''
 
-if __name__ == "__main__":
 
-	# Geocoding an address 
-	geocode_result = gmaps.geocode('161 Camelia Lane, Walnut Creek, Ca')
+if __name__ == "__main__":
+	user1_story = CreateStory()
+	user1_story.create_start_event()
+	event_one = user1_story.story[0]
+	print(event_one)
+
 
 	# Get directions from one point to another
-	now = datetime.now()
-	directions_results = gmaps.directions("161 Camelia Lane", "UCLA", mode="transit", departure_time=now)
-	print(directions_results)
-
-	# Get current location 
-	curr_loc = geolocation.geolocate(client=gmaps)
-	print(curr_loc)
+	# now = datetime.now()
+	# directions_results = gmaps.directions("161 Camelia Lane", "UCLA", mode="transit", departure_time=now)
+	# print(directions_results)
