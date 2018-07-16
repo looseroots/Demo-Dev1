@@ -1,3 +1,7 @@
+__author__ = "Cody Swain"
+__copyright__ = "TimeSpent" # HEEHEE if your reading this ur a fucking goob
+
+import random
 import googlemaps
 from googlemaps import geolocation
 from googlemaps import places
@@ -13,7 +17,7 @@ example_story = [
 	{
 		"Event Title": "Bowling",
 		"Category": "Activity",
-		"Event location": "1234 Haashole Rd, Goober Germany, 91111",
+		"Event location": "1234 Haashole Rd, Goober Germany, 91111", # ROFL LMAO !
 		"Start Time": "4:00 PM",
 		"End Time": "5:00 PM",
 	},
@@ -47,7 +51,7 @@ def initialize_story(start_location=None):
 	return story
 
 
-# Function called upon selection of previous event.
+# Function called upon selection of previous event. May also be called after creation of initial event. 
 # Returns dict with nearby events
 # One issue -- Google Maps API doesn't want developers to scrape large amounts of data. Capped at 60 Search queries. 
 def list_nearby_events(curr_location=None, search_radius=None, event_type=None):
@@ -62,56 +66,38 @@ def list_nearby_events(curr_location=None, search_radius=None, event_type=None):
 		nearby_events = nearby_gmaps_results['results']
 		return nearby_events
 
+
 # Temp function. List names for object returned by list_nearby_events
 def list_nearby_event_names(data):
 	for i in range(len(data)):
 		print(data[i]['name'])
 
 
+# Function called upon the selection of an event. Appends selected event to a users story
+# Returns modified "Story"
+def append_event_to_story(story, event):
+	story.append(event)
+	return story #This return statement may not be necessary because python lists are mutable. Kept for simplicity.
 
-# REMOVE THIS STUFF
-class CreateStory():
-	def __init__(self, start_loc=None, end_loc=None, story_duration=None, story_budget=None):
-		self.story = list()
 
-	def create_start_event(self, location=None):
-		if location:
-			start_loc = gmaps.geocode(location)
-		else:
-			start_loc = geolocation.geolocate(client=gmaps)
-		
-		if start_loc:
-			self.story.append(start_loc)
+# Replace this function in the future
+# Returns randomly selected event from list_nearby_events
+def random_event_picker(nearby_events_list):
+	return random.choice(nearby_events_list)
 
-	# Remove this function. Add class inheritance for "places_nearby" ?
-	def list_nearby_places(self, location, category):
-		places_dict = places.places_nearby(location, category)
-		return places_dict
+# def choose_category(self, previous_event, current_time):
+# 	return None
 
-	def append_event(self, event):
-		self.story.append(event)
-
-	def choose_category(self, previous_event, current_time):
-		return None
-
-	def allocate_time(self, event):
-		return None
-
-# Parameters for Google API place_nearby function
-'''
-def places_nearby(client, location=None, radius=None, keyword=None,
-                  language=None, min_price=None, max_price=None, name=None,
-                  open_now=False, rank_by=None, type=None, page_token=None):
-'''
+# def allocate_time(self, event):
+# 	return None
 
 
 if __name__ == "__main__":
 	story = initialize_story()
-
-
 	#lat_lng = story[0]['location']
+
 	lat_lng = [37.8898303, -122.06701120000002] #This is the lat and longitude of a house in Walnut Creek
-	places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000)
+	places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000) #Search radius in meters
 
 	list_nearby_event_names(places_dict)
 
