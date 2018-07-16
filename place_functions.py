@@ -26,19 +26,24 @@ example_story = [
 	}
 ]
 
-
-
 # Function called upon creation of a new story. 
 # Returns a users Story as a list a dict inside for event one
 def initialize_story(start_location=None):
-	story = list()
+	story = list() #Individual users story -- A List of Dicts
 
 	if start_location:
 		start_loc = gmaps.geocode(start_location)
 	else: 
 		start_loc = geolocation.geolocate(client=gmaps)
 
-	story.append(start_loc)
+	# Create a start event from start loc
+	start_event = {}
+	start_event = dict(start_loc) #Copy the start loc dict
+	start_event['name'] = "__START__"
+	## --------------------------------
+	## ADD FUTURE EVENT PROPERTIES HERE
+	## --------------------------------
+	story.append(start_event)
 	return story
 
 
