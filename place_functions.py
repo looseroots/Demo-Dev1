@@ -25,6 +25,36 @@ example_story = [
 	}
 ]
 
+
+
+# Function called upon creation of a new story. 
+# Returns a users Story as a list a dict inside for event one
+def initialize_story(start_location=None):
+	story = list()
+
+	if start_location:
+		start_loc = gmaps.geocode(start_location)
+	else: 
+		start_loc = geolocation.geolocate(client=gmaps)
+
+	story.append(start_loc)
+	return story
+
+
+# Function called upon selection of previous event.
+# Returns dict with nearby events
+def list_nearby_places(curr_location=None, event_type=None):
+	if event_type:
+		neary_places = places.places_nearby(client=gmaps, location=curr_location, type=event_type) #Creates dict()
+	else:
+		neary_places = places.places_nearby(client=gmaps, location=curr_location)
+	return nearby_places
+
+
+
+
+
+
 class CreateStory():
 	def __init__(self, start_loc=None, end_loc=None, story_duration=None, story_budget=None):
 		self.story = list()
@@ -61,14 +91,19 @@ def places_nearby(client, location=None, radius=None, keyword=None,
 
 
 if __name__ == "__main__":
-	user1_story = CreateStory()
-	user1_story.create_start_event()
-	event_one = user1_story.story[0]
-	print(event_one)
+	story = initialize_story()
+	lat_lng = story[0]['location']
+	
+	print(lat_lng)
+	lat_lng_list = list()
+	lat_lng_list.append(lat_lng['lat'])
+	lat_lng_list.append(lat_lng['lng'])
+	print(lat_lng_list)
+
+	places_dict = list_nearby_places(lat_lng_list)
 
 
 	# Get directions from one point to another
 	# now = datetime.now()
-4directions_results = gmaps.directions("161 Camelia Lane", "UCLA", mode="transit", departure_time=now)
-# print(directions_results)
-1.
+	# directions_results = gmaps.directions("161 Camelia Lane", "UCLA", mode="transit", departure_time=now)
+	# print(directions_results)
