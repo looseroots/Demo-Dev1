@@ -3,8 +3,9 @@ from googlemaps import geolocation
 from googlemaps import places
 from datetime import datetime
 
-# Store this in an environment variable
+# ASAP -- Store this in an environment variable for security reasons
 gmaps = googlemaps.Client(key='AIzaSyC94G_D29MnwKOepVNsTOqfu99PYtlcuAU')
+
 
 # Stories are lists of events (stored in dicts)
 # Stories should be returned to 
@@ -43,18 +44,27 @@ def initialize_story(start_location=None):
 
 # Function called upon selection of previous event.
 # Returns dict with nearby events
-def list_nearby_places(curr_location=None, event_type=None):
+# One issue -- Google Maps API doesn't want developers to scrape large amounts of data. Capped at 60 Search queries. 
+def list_nearby_events(curr_location=None, search_radius=None, event_type=None):
+
 	if event_type:
-		neary_places = places.places_nearby(client=gmaps, location=curr_location, type=event_type) #Creates dict()
+		nearby_gmaps_results = places.places_nearby(client=gmaps, location=curr_location, keyword="Food", radius=search_radius)
 	else:
-		neary_places = places.places_nearby(client=gmaps, location=curr_location)
-	return nearby_places
+		nearby_gmaps_results = places.places_nearby(client=gmaps, location=curr_location, keyword="Food", radius=search_radius)
+
+	# Convert google maps into "Story" compatible data type
+	if nearby_gmaps_results:
+		nearby_events = nearby_gmaps_results['results']
+		return nearby_events
+
+# Temp function. List names for object returned by list_nearby_events
+def list_nearby_event_names(data):
+	for i in range(len(data)):
+		print(data[i]['name'])
 
 
 
-
-
-
+# REMOVE THIS STUFF
 class CreateStory():
 	def __init__(self, start_loc=None, end_loc=None, story_duration=None, story_budget=None):
 		self.story = list()
@@ -92,16 +102,13 @@ def places_nearby(client, location=None, radius=None, keyword=None,
 
 if __name__ == "__main__":
 	story = initialize_story()
-	lat_lng = story[0]['location']
-	
-	print(lat_lng)
-	lat_lng_list = list()
-	lat_lng_list.append(lat_lng['lat'])
-	lat_lng_list.append(lat_lng['lng'])
-	print(lat_lng_list)
 
-	places_dict = list_nearby_places(lat_lng_list)
 
+	#lat_lng = story[0]['location']
+	lat_lng = [37.8898303, -122.06701120000002] #This is the lat and longitude of a house in Walnut Creek
+	places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000)
+
+	list_nearby_event_names(places_dict)
 
 	# Get directions from one point to another
 	# now = datetime.now()
