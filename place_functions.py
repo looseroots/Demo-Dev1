@@ -45,6 +45,7 @@ def initialize_story(start_location=None):
 	start_event = {}
 	start_event = dict(start_loc) #Copy the start loc dict
 	start_event['name'] = "__START__"
+
 	## --------------------------------
 	## ADD FUTURE EVENT PROPERTIES HERE
 	## --------------------------------
@@ -94,25 +95,55 @@ def random_event_picker(nearby_events_list):
 
 
 if __name__ == "__main__":
-	story = initialize_story()
-	#lat_lng = story[0]['location']
-
-	lat_lng = [37.8898303, -122.06701120000002] #This is the lat and longitude of a house in Walnut Creek
 	
+	'''Event #1'''
+	story = initialize_story()
 
-	places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000) #Search radius in meters
+	'''Event #2'''
+	if 'location' in story[0]:
+		lat_lng = story[0]['location']
+	else:
+		lat_lng = story[0]['geometry']['location']
+	nearby_places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000) #Search radius in meters
+	specific_event = random_event_picker(nearby_places_dict)
+	story = append_event_to_story(story, specific_event)
+
+	'''Event #3'''
+	if 'location' in story[1]:
+		lat_lng = story[1]['location']
+	else:
+		lat_lng = story[1]['geometry']['location']
+
+	nearby_places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000) #Search radius in meters
+	specific_event = random_event_picker(nearby_places_dict)
+	story = append_event_to_story(story, specific_event)
+
+	'''Event #4'''
+	if 'location' in story[2]:
+		lat_lng = story[2]['location']
+	else:
+		lat_lng = story[2]['geometry']['location']
+	nearby_places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000) #Search radius in meters
+	specific_event = random_event_picker(nearby_places_dict)
+	story = append_event_to_story(story, specific_event)
+	
+	''' Print Event Names'''
+	for idx in range(len(story)):
+		print(story[idx]['name'])
+
 
 
 	### TEMP
 
-	start_loc = [ 37.8898303, -122.06701120000002] #This is the starting location 
+	# start_loc = [37.8898303, -122.06701120000002] #This is the starting location 
 
-	story = initialize_story(start_loc)
-	print(story[0])
+	# story = initialize_story(start_loc)
+	# print("DEV -- Print out story:: " + str(story[0]['location']))
+	# event_list = list_nearby_events(story[0])
 	# event_list = list_nearby_events(story[0]['location'])
+
 	# chosen_event = random_event_picker(event_list)
 	# story = append_event_to_story(story, chosen_event)
-	print(story)
 
 
 	### END TEMP
@@ -121,7 +152,7 @@ if __name__ == "__main__":
 
 
 
-	list_nearby_event_names(places_dict)
+	# list_nearby_event_names(places_dict)
 
 	# Get directions from one point to another
 	# now = datetime.now()
