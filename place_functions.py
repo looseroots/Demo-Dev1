@@ -1,5 +1,5 @@
 __author__ = "Cody Swain"
-__copyright__ = "TimeSpent" # HEEHEE if your reading this ur a fucking goob
+__copyright__ = "TimeSpent" #if your reading this ur a fucking goob
 
 import random
 import googlemaps
@@ -17,7 +17,7 @@ example_story = [
 	{
 		"Event Title": "Bowling",
 		"Category": "Activity",
-		"Event location": "1234 Haashole Rd, Goober Germany, 91111", # ROFL LMAO !
+		"Event location": "1234 Haashole Rd, Goober Germany, 91111", # lmao
 		"Start Time": "4:00 PM",
 		"End Time": "5:00 PM",
 	},
@@ -29,6 +29,7 @@ example_story = [
 		"End Time": "7:00 PM",
 	}
 ]
+
 
 # Function called upon creation of a new story. 
 # Returns a users Story as a list a dict inside for event one
@@ -97,7 +98,28 @@ if __name__ == "__main__":
 	#lat_lng = story[0]['location']
 
 	lat_lng = [37.8898303, -122.06701120000002] #This is the lat and longitude of a house in Walnut Creek
+	
+
 	places_dict = list_nearby_events(curr_location=lat_lng, search_radius=1000) #Search radius in meters
+
+
+	### TEMP
+
+	start_loc = [ 37.8898303, -122.06701120000002] #This is the starting location 
+
+	story = initialize_story(start_loc)
+	print(story[0])
+	# event_list = list_nearby_events(story[0]['location'])
+	# chosen_event = random_event_picker(event_list)
+	# story = append_event_to_story(story, chosen_event)
+	print(story)
+
+
+	### END TEMP
+
+
+
+
 
 	list_nearby_event_names(places_dict)
 
